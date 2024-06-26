@@ -23,3 +23,8 @@ class Message(BaseModel):
 class Chat(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     messages: List[Message] = []
+
+    def alternate_author(self, last_message: Message):
+        if len(self.messages) > 1:
+            return self.messages[-1].author.type != last_message.author.type
+        return True
