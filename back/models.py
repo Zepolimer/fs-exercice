@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from uuid import UUID, uuid4
 
 
@@ -13,6 +13,13 @@ class User(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     type: UserEnum = UserEnum.USER or UserEnum.AGENT
 
+    @field_validator('type')
+    @classmethod
+    def validate_type(cls, value: UserEnum):
+        if not isinstance(value, Enum):
+            raise ValueError('User type must be USER or AGENT')
+        return value
+
 
 class Message(BaseModel):
     id: UUID = Field(default_factory=uuid4)
@@ -24,7 +31,7 @@ class Chat(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     messages: List[Message] = []
 
-    def alternate_author(self, last_message: Message):
-        if len(self.messages) > 1:
-            return self.messages[-1].author.type != last_message.author.type
+    def alternate_author(self):
+        if len(self.messages) >= 2:
+            return self.messages[-2].author.type != self.messages[-1].author.type
         return True

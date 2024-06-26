@@ -1,9 +1,9 @@
+import {Message} from "../models";
 
 
 export class ChatApi {
-    static async list(messages: Message[]): Promise {
+    static async postMessage(messages: Message[]): Promise<any> {
         let url = 'http://localhost:8000/'
-        let statusCode = response.status
         let data = {}
         let error = null
 
@@ -11,8 +11,11 @@ export class ChatApi {
             url,
             {
                 method: 'POST',
-                json: JSON.stringify({
-                    messages
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "messages": messages
                 })
             }
         )
@@ -23,6 +26,7 @@ export class ChatApi {
         catch (e: any) {
             error = e.toString()
         }
+        let statusCode = response.status
 
         return {
             statusCode,

@@ -1,22 +1,36 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from models import Chat, Message, User, UserEnum
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3000/",
+    "localhost:3000"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
+
+chat_history = Chat()
 agent = User(type=UserEnum.AGENT)
 
 
 @app.post(
     '/',
     response_model=Message,
-    status_code=201
+    status_code=status.HTTP_201_CREATED
 )
 async def send_message(chat: Chat):
     if len(chat.messages) > 0:
-        last_message = chat.messages[-1]
-        is_alternated = chat.alternate_author(last_message)
+        is_alternated = chat.alternate_author()
 
         if is_alternated:
             message = Message(

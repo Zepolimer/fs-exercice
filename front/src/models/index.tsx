@@ -1,25 +1,18 @@
 
 export enum UserEnum {
-    USER = 0
+    USER = 0,
     AGENT = 1
 }
 
-export interface Identifier {
-    id: str
-}
-
-export class User implements Identifier {
-    id: str = ''
+export class User {
     type: UserEnum = UserEnum.USER || UserEnum.AGENT
 }
 
-export class Message implements Identifier {
-    id: str = ''
+export class Message {
     author: User = new User()
-    content: str = ''
+    content: string = ''
 }
 
-export class Chat implements Identifier {
-    id: str = ''
+export class Chat {
     messages: Message[] = []
 }

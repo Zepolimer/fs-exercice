@@ -40,6 +40,52 @@ class ChatSystemTestCase(TestCase):
         self.assertEqual(obj['author']['type'], UserEnum.AGENT)
         self.assertEqual(obj['content'], "This is a generated response to your message")
 
+    def test_user_post_messages_alternate(self):
+        response = client.post(
+            url="/",
+            json={
+                "messages": [
+                    {
+                        "author": {
+                            "type": UserEnum.USER
+                        },
+                        "content": "Lorem ipsum indolore ..."
+                    },
+                    {
+                        "author": {
+                            "type": UserEnum.AGENT
+                        },
+                        "content": "This is a generated response to your message"
+                    },
+                    {
+                        "author": {
+                            "type": UserEnum.USER
+                        },
+                        "content": "Lorem ipsum indolore ..."
+                    },
+                    {
+                        "author": {
+                            "type": UserEnum.AGENT
+                        },
+                        "content": "This is a generated response to your message"
+                    },
+                    {
+                        "author": {
+                            "type": UserEnum.USER
+                        },
+                        "content": "Lorem ipsum indolore ..."
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        obj = response.json()
+        self.assertIn('id', obj)
+        self.assertEqual(obj['author']['type'], UserEnum.AGENT)
+        self.assertEqual(obj['content'], "This is a generated response to your message")
+
     def test_user_post_messages_exception(self):
         response = client.post(
             url="/",
