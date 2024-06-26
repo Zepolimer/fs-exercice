@@ -1,8 +1,8 @@
 from unittest import TestCase
 from fastapi.testclient import TestClient
 
-from src.main import app
-from src.models import UserEnum
+from main import app
+from models import UserEnum
 
 client = TestClient(
     app,
