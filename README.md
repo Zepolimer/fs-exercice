@@ -30,7 +30,7 @@ to simulate a real agent.
 
 ## Launch server
 ```commandline
-cd back/app
+cd back/src
 python3 -m uvicorn main:app --reload
 ```
 
