@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/src
+      - ~/.ssh:/home/node/.ssh
+    ports:
+      - 3000:3000
+      - 3001:3000
+      - 3002:3000
+      - 3003:3000
+      - 3004:3000
+
+networks:
+  default:
+    name: fs_exercise

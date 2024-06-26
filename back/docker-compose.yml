@@ -1,0 +1,14 @@
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./src:/src
+      - ~/.ssh:/home/docker/.ssh
+    ports:
+      - 8000:8000
+
+networks:
+  default:
+    name: fs_exercise

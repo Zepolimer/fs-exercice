@@ -28,14 +28,75 @@ to simulate a real agent.
 
 <br/>
 
-## Launch server
+## Back CMD using FastAPI, Pydantic
+### Using Docker
+#### Build the Docker image and install the full project
 ```commandline
-cd back
+make start
+```
+#### Debug container and launch server
+```commandline
+make debug
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+#### Debug container and launch tests
+```commandline
+make debug
+python3 -m unittest
+```
+#### Stop containers
+```commandline
+make stop
+```
+<br/>
+
+### Without Docker
+#### 1. Move to src folder
+```commandline
+cd back/src
+```
+#### 2. Install dependencies
+```commandline
+python3 install -r requirements.txt
+```
+#### 3.1 Launch server
+```commandline
 python3 -m uvicorn main:app --reload
 ```
-
-## Launch tests
+#### 3.2 Launch tests
 ```commandline
-cd back
 python3 -m unittest
+```
+
+<br/>
+
+## Front using React, TailwindCSS
+### Using Docker
+#### Build the Docker image and install the full project
+```commandline
+make start
+```
+#### Debug container and run app
+```commandline
+make debug
+yarn start
+```
+#### Stop containers
+```commandline
+make stop
+```
+<br/>
+
+### Without Docker
+#### 1. Move to src folder
+```commandline
+cd front
+```
+#### 2. Install dependencies
+```commandline
+yarn install
+```
+#### 3. Run app
+```commandline
+yarn start
 ```
