@@ -19,7 +19,6 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-chat_history = Chat()
 agent = User(type=UserEnum.AGENT)
 
 

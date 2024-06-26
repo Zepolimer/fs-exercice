@@ -15,16 +15,23 @@ class User(BaseModel):
 
     @field_validator('type')
     @classmethod
-    def validate_type(cls, value: UserEnum):
-        if not isinstance(value, Enum):
-            raise ValueError('User type must be USER or AGENT')
-        return value
+    def validate_type(cls, user_type: UserEnum):
+        if not isinstance(user_type, Enum):
+            raise ValueError('User type must be an Enum value: USER(0) or AGENT(1)')
+        return user_type
 
 
 class Message(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     author: User
     content: str
+
+    @field_validator('author')
+    @classmethod
+    def validate_author(cls, author: User):
+        if not isinstance(author, User):
+            raise ValueError('author must be an instance of User')
+        return author
 
 
 class Chat(BaseModel):
